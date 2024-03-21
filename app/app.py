@@ -9,6 +9,7 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
+    # Récupération des données du formulaire
     formation = request.form.get('formation')
     priorite = request.form.get('priorit')
     type_retour = request.form.get('type_retour')
@@ -16,7 +17,10 @@ def submit_form():
     evaluation = request.form.get('evaluation')
     commentaires = request.form.get('commentaires')
 
+    # Création de la liste feedbacks à l'intérieur de la fonction
     feedbacks = []
+
+    # Création d'un dictionnaire avec les données du formulaire
     feedback = {
     'formation': formation,
     'priorite': priorite,
@@ -26,8 +30,10 @@ def submit_form():
     'commentaires': commentaires
     }
 
+    # Ajout du dictionnaire à la liste
     feedbacks.append(feedback)
 
+    # Renvoyer le template de confirmation
     return render_template('confirmation.html',
                            formation=formation,
                            priorite=priorite,
@@ -42,4 +48,4 @@ def submit_form():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
