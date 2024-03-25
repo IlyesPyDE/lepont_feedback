@@ -1,4 +1,3 @@
-document.getElementById('date').value = new Date().toLocaleDateString("fr");
 const value = document.querySelector("#ratingvalue");
 const input = document.querySelector("#rating");
 value.textContent = input.value;

@@ -1,0 +1,22 @@
+<!-- Ce fichier servira de template pour afficher la liste des retours -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retours des apprenants</title>
+</head>
+<body>
+    <h1>Liste des retours</h1>
+    <ul>
+        {% for feedback in feedbacks %}
+        <li>
+            <h2>{{ feedback.formation }}</h2>
+            <p>Type de retour : {{ feedback.feedback_type }}</p>
+            <p>Date : {{ feedback.date }}</p>
+            <p>Évaluation : {{ feedback.rating }}</p>
+            <p>Commentaire : {{ feedback.comment }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

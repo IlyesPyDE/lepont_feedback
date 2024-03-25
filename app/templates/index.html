@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulaire de retour</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <form id="feedback-form" action="/submit" method="post">
-        <img src="logolp.png" id="logo" />
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form id="feedback-form" method="post">
+        <img src="{{ url_for('static', filename='logolp.png') }}" class="logolp" alt="Logo LePont">
         <h2>Votre retour sur la formation</h2>
         <div class="form-group">
             <label for="bootcampname">Nom du bootcamp :</label>
@@ -20,25 +27,15 @@
                 <option value="artificial_intelligence">Intelligence Artificielle</option>
                 <option value="cloud_computing">Cloud Computing</option>
             </select>
-        </div>
-        <div class="form-group">
-            <label for="prioriteRetour">Priorité de retour</label>
-            <select id="prioriteRetour" name="prioriteRetour">
-                <option value="faible">Faible</option>
-                <option value="moyenne">Moyenne</option>
-                <option value="haute">Haute</option>
-            </select> 
-        </div>       
+        </div>              
         <div class="form-group">
             <label for="score">Type de retour</label>
             <select id="typeRetour" name="typeRetour">
                 <option value="">Sélectionnez un type de retour</option>
                 <option value="contenu_cours">Contenu du cours</option>
                 <option value="formateur">Formateur</option>
-                <option value="methodes_pedagogiques">Méthodes pédagogiques</option>
-                <option value="equipements">Équipements</option>
-                <option value="support_cours">Support de cours</option>
-                <option value="activites_extra">Activités extra-scolaires</option>
+                <option value="methodes_pedagogiques">Méthodes pédagogiques</option>                
+                <option value="support_cours">Support de cours</option>                
                 <option value="environnement_apprentissage">Environnement d'apprentissage</option>
                 <option value="communication">Communication</option>
                 <option value="axe_amelioration">Axe d'amélioration</option>
@@ -46,22 +43,17 @@
         </div>
         <div class="form-group">
             <label for="date">Date :</label>
-            <input type="text" id="date" name="date">
+            <input type="date" id="date" name="date" required>
         </div>
         <div class="form-group">
             <label for="rating">Évaluation :</label>
-            <input type="range" id="rating" name="rating" min="1" max="5" required>
+            <input type="range" id="rating" name="rating" min="1" max="10" required>
             <span id="ratingvalue"></span>
         </div>
         <div class="form-group">
             <label for="comments">Commentaires :</label>
             <textarea id="comments" name="comments" rows="4" required></textarea>
         </div>
-        <div class="form-group">
-            <label for="attachedfiles" class="label-file">Pièces jointes :</label>
-            <input type="file" id="attachedfiles" name="attachedfiles">
-        </div>
-
         <div class="form-group">
             <label>
                 <input type="checkbox" id="consentement" name="consentement" required>
@@ -70,6 +62,6 @@
         </div>
         <button type="submit">Soumettre</button>
     </form>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
-<script src="script.js"></script>
 </html>

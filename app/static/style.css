@@ -52,11 +52,32 @@ input[readonly] {
 }
 
 input[type=range] {
-    width: 10%;
+    width: 100%;
     padding: 0;
     margin-top: 15px;
 }
 
-img#logo {
-    width: 250px;
+.logolp {
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+    height: auto;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
 }
