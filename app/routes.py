@@ -30,7 +30,7 @@ def home():
             feedback = Feedback(formation, feedback_type, date, rating, comment)
             # TODO: Save the feedback data to HDFS
 
-            #
+            # créer un message Flash 
             flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")
         
         return redirect(url_for('routes.home'))
