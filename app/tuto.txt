@@ -4,7 +4,7 @@ CREATE TABLE feedbacks (
   id INT,
   formation STRING,
   feedback_type STRING,
-  date STRING,
+  `date` STRING,
   rating INT,
   comment STRING
 )
