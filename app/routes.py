@@ -11,6 +11,10 @@ Pour les requêtes GET, nous rendons simplement le modèle "index.html"
 
 from flask import Blueprint, render_template,request, redirect, url_for, flash
 from .models import Feedback
+import csv
+from subprocess import Popen, PIPE
+
+
 
 bp = Blueprint('routes', __name__)
 
@@ -28,7 +32,14 @@ def home():
         
         if consent:
             feedback = Feedback(formation, feedback_type, date, rating, comment)
-            # TODO: Save the feedback data to HDFS
+            # enregistrer le retour dans un fichier CSV temporaire
+            with open('temp_feedback.csv', 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([1, formation, feedback_type, date, rating, comment])
+            
+            # charger le fichier CSV dans HDFS
+            put = Popen(["hadoop", "fs", "-put", "temp_feedback.csv", "/feedbacks"], stdin=PIPE, bufsize=-1)
+            put.communicate() 
 
             # créer un message Flash 
             flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")
@@ -36,6 +47,7 @@ def home():
         return redirect(url_for('routes.home'))
     
     return render_template('index.html')
+
 
 
 # '/feedbacks' : Route pour récupérer tous les retours (opération Read).
