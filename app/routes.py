@@ -9,9 +9,11 @@ et renvoyons un message de succès
 Pour les requêtes GET, nous rendons simplement le modèle "index.html"
 """
 
-from flask import Blueprint, render_template,request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .models import Feedback
 import csv
+import os
+import subprocess
 from subprocess import Popen, PIPE
 
 
@@ -33,13 +35,22 @@ def home():
         if consent:
             feedback = Feedback(formation, feedback_type, date, rating, comment)
             # enregistrer le retour dans un fichier CSV temporaire
+            #csv_file_path = os.path.join(os.path.dirname(__file__), "temp_feedback.csv")
             with open('temp_feedback.csv', 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([1, formation, feedback_type, date, rating, comment])
             
+            #Obtenir le chemin absolu du fichier temp_feedback.csv et hadoop            
+            # hadoop_path = os.path.join("C", "hadoop", "bin", "hadoop")
+                
+        
             # charger le fichier CSV dans HDFS
-            put = Popen(["hadoop", "fs", "-put", "temp_feedback.csv", "/feedbacks"], stdin=PIPE, bufsize=-1)
-            put.communicate() 
+            put = Popen(["hadoop", "fs", "-put", "temp_feedback.csv", "/feedbacks"], stdin=PIPE, stderr=PIPE, bufsize=-1, shell=True)
+            _, error = put.communicate()
+
+            if error:
+                print("Erreur lors de l'exécution de la commande Hadoop :", {error.decode()})
+            
 
             # créer un message Flash 
             flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")
