@@ -37,8 +37,9 @@ def home():
                 # Écrire les données dans HDFS
                 hdfs = PyWebHdfsClient(host='localhost', port='50070', user_name='hdfs')
                 hdfs.create_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n", append=True)
-
-            
+                
+            except:
+                print()            
 
             # créer un message Flash 
             flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")
