@@ -13,8 +13,8 @@ def create_app():
     # et les jetons CSRF (Cross-Site Request Forgery)
     app.secret_key = 'B2D!orzKuSVd$nA4&V6j26%&h8^3'
     
-    # Cette ligne désactive les sessions dans Flask, ce qui permettra à l'application
-    # de fonctionner sans clé secrète définie.
+    # Cette ligne ci-dessous désactive les sessions dans Flask, ce qui permettra à l'application
+    # de fonctionner sans clé secrète définie. déconséillé car pas une bonne pratique!!!
     """ app.config['SESSION_TYPE'] = 'null'  """
     
     # Importation du blueprint à l'intérieur de la fonction

@@ -1,16 +1,16 @@
-<!--  --> 
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>Détails du retour</title>
     </head>
     <body>
-    <h1>Détails du retour</h1>
-    <h2>{{ feedback.formation }}</h2>
-    <p>Type de retour : {{ feedback.feedback_type }}</p>
-    <p>Date : {{ feedback.date }}</p>
-    <p>Évaluation : {{ feedback.rating }}</p>
-    <p>Commentaire : {{ feedback.comment }}</p>
+        <h2>Détails du retour</h2>
+        <p>Bootcamp : {{ feedback[1] }}</p>
+        <p>Type de retour : {{ feedback[2] }}</p>
+        <p>Date : {{ feedback[3] }}</p>
+        <p>Évaluation : {{ feedback[4] }}</p>
+        <p>Commentaire : {{ feedback[5] }}</p>
     </body>
 </html>
+
+
