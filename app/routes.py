@@ -39,7 +39,7 @@ def home():
                 hdfs.create_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n", append=True)
 
                 # Insérer les données dans Hive
-                conn = hive.Connection(host="localhost", port=10000, database="default")
+                conn = hive.Connection(host="localhost", port=10000, database="lplearning")
                 cursor = conn.cursor()
 
                 query = f"INSERT INTO feedbacks (bootcamp, feedback_type, date, rating, comment) VALUES ('{bootcamp}', '{feedback_type}', '{date}', {rating}, '{comment}')"
@@ -67,7 +67,7 @@ def home():
 def get_feedbacks():
     # Récupérer tous les retours depuis la base de données (HDFS)
     try:
-        conn = hive.Connection(host="localhost", port=10000, database="default")
+        conn = hive.Connection(host="localhost", port=10000, database="lplearning")
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM feedbacks")
         feedbacks = cursor.fetchall()
@@ -86,7 +86,7 @@ def get_feedbacks():
 def get_feedback(id):
     # Récupérer un retour spécifique depuis la base de données (HDFS)
     try:
-        conn = hive.Connection(host="localhost", port=10000, database="default")
+        conn = hive.Connection(host="localhost", port=10000, database="lplearning")
         cursor = conn.cursor()
         cursor.execute(f"SELECT * FROM feedbacks WHERE id = {id}")
         feedback = cursor.fetchone()
@@ -115,7 +115,7 @@ def update_feedback(id):
     comment = request.form['comments']
 
     try:
-        conn = hive.Connection(host="localhost", port=10000, database="default")
+        conn = hive.Connection(host="localhost", port=10000, database="lplearning")
         cursor = conn.cursor()
         
         query = f"UPDATE feedbacks SET bootcamp = '{bootcamp}', feedback_type = '{feedback_type}', date = '{date}', rating = {rating}, comment = '{comment}' WHERE id = {id}"
@@ -138,7 +138,7 @@ def update_feedback(id):
 def delete_feedback(id):
     # Supprimer un retour spécifique de la base de données (HDFS)
     try:
-        conn = hive.Connection(host="localhost", port=10000, database="default")
+        conn = hive.Connection(host="localhost", port=10000, database="lplearning")
         cursor = conn.cursor()
         
         query = f"DELETE FROM feedbacks WHERE id = {id}"
