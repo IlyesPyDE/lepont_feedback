@@ -42,20 +42,23 @@ def home():
                 conn = hive.Connection(host="localhost", port=10000, database="lplearning", auth='NONE', username='hdfs')
                 cursor = conn.cursor()
 
-                query = f"INSERT INTO feedbacks (bootcamp, feedback_type, date, rating, comment) VALUES ('{bootcamp}', '{feedback_type}', '{date}', {rating}, '{comment}')"
+                query = f"INSERT INTO feedbacks (bootcamp, feedback_type, `date`, rating, comment) VALUES ('{bootcamp}', '{feedback_type}', '{date}', {rating}, '{comment}')"
                 cursor.execute(query)
 
                 conn.close()
 
                 # créer un message Flash 
-                flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")             
+                flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")  
+                return redirect(url_for('routes.home'))           
                 
             except Exception as e:
                 print(f"Erreur lors de l'enregistrement du feedback : {str(e)}")
-                flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")                      
+                flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")   
+                return redirect(url_for('routes.home'))
 
-                    
-        return redirect(url_for('routes.home'))
+        else:
+            flash("Veuillez donner votre consentement pour enregistrer votre retour.", "warning")
+            return redirect(url_for('routes.home'))
     
     return render_template('index.html')
 
