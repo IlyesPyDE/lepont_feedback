@@ -18,11 +18,6 @@ from pyhive import hive
 
 bp = Blueprint('routes', __name__)
 
-def get_hive_connection():
-    if 'hive_conn' not in g:
-        g.hive_conn = hive.Connection(host="localhost", port=10000, database="lplearning", auth='NONE', username='hdfs')
-    return g.hive_conn
-    
 # '/' : Route pour la page d'accueil qui affiche le formulaire de retour et 
 #       gère la soumission des nouveaux retours.
 @bp.route('/', methods=['GET', 'POST'])
@@ -39,33 +34,34 @@ def home():
             feedback = Feedback(bootcamp, feedback_type, date, rating, comment)
 
             try:
-                # Écrire les données dans HDFS par lots 
-                with open('feedbacks.csv', 'a') as f:
-                    f.write(f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n")
+                # Écrire les données dans HDFS
+                hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+                hdfs.append_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n", append=True)
 
-                # Insérer les données dans Hive avec une transaction
-                conn = get_hive_connection()
+                # Insérer les données dans Hive
+                conn = hive.Connection(host="localhost", port=10000, database="lplearning", auth='NONE', username='hdfs')
                 cursor = conn.cursor()
 
-                cursor.execute("START TRANSACTION")
                 query = f"INSERT INTO feedbacks (bootcamp, feedback_type, `date`, rating, comment) VALUES ('{bootcamp}', '{feedback_type}', '{date}', {rating}, '{comment}')"
                 cursor.execute(query)
-                cursor.execute("COMMIIT")
+
+                conn.close()
 
                 # créer un message Flash 
                 flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")  
                 return redirect(url_for('routes.home'))           
-                            
+                
             except Exception as e:
                 print(f"Erreur lors de l'enregistrement du feedback : {str(e)}")
                 flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")   
-                cursor.execute("ROLLBACK")
                 return redirect(url_for('routes.home'))
+
         else:
             flash("Veuillez donner votre consentement pour enregistrer votre retour.", "warning")
             return redirect(url_for('routes.home'))
     
     return render_template('index.html')
+
 
 
 
@@ -160,8 +156,3 @@ def delete_feedback(id):
         flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")
 
     return '', 204
-
-@bp.teardown_appcontext
-def close_hive_connection(error):
-    if 'hive_conn' in g:
-        g.hive_conn.close()
