@@ -35,11 +35,11 @@ def home():
 
             try:
                 # Écrire les données dans HDFS
-                hdfs = PyWebHdfsClient(host='localhost', port='50070', user_name='hdfs')
-                hdfs.create_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n", append=True)
+                hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+                hdfs.append_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n", append=True)
 
                 # Insérer les données dans Hive
-                conn = hive.Connection(host="localhost", port=10000, database="lplearning")
+                conn = hive.Connection(host="localhost", port=10000, database="lplearning", auth='NONE', username='hdfs')
                 cursor = conn.cursor()
 
                 query = f"INSERT INTO feedbacks (bootcamp, feedback_type, date, rating, comment) VALUES ('{bootcamp}', '{feedback_type}', '{date}', {rating}, '{comment}')"
