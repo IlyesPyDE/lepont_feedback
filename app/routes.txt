@@ -234,3 +234,18 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 STORED AS ORC
 LOCATION '/user/hdfs/';
+
+try: ...
+    conn = hive.Connection(host="localhost", port=10000, database="lplearning")
+    cursor = conn.cursor()
+
+    # Générer un UUID unique pour le nouveau feedback
+    feedback_id = str(uuid.uuid4())
+
+    query = "INSERT INTO feedbacks (id, bootcamp, feedback_type, date, rating, comment) VALUES (%s, %s, %s, %s, %s, %s)"
+    cursor.execute(query, (feedback_id, bootcamp, feedback_type, date, rating, comment))
+
+    conn.close()
+
+    flash(...)
+    return ...
