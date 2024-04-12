@@ -1,3 +1,5 @@
+# METHODE 1: stockage des données dans HDFS AVEC INSERTION DANS HIVE
+-----------------------------------------------------------
 # Ce fichier contiendra les routes et les vues de notre application Flask
 """
 Ce code définit un blueprint nommé "bp" et une route pour la page d'accueil ("/"). 
@@ -156,3 +158,63 @@ def delete_feedback(id):
         flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")
 
     return '', 204
+
+
+
+# METHODE 2 : UTILISATION DE SUBPROCESS, POPEN et PIPE
+# ...
+
+from flask import Blueprint, render_template, request, redirect, url_for, flash, g 
+from .models import Feedback
+import csv
+from subprocess import Popen, PIPE
+
+
+bp = Blueprint('routes', __name__)
+
+# '/' : Route pour la page d'accueil qui affiche le formulaire de retour et 
+#       gère la soumission des nouveaux retours.
+@bp.route('/', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        bootcamp = request.form['formation']
+        feedback_type = request.form['typeRetour']
+        date = request.form['date']
+        rating = int(request.form['rating'])
+        comment = request.form['comments']
+        consent = 'consentement' in request.form
+        
+        if consent:
+            feedback = Feedback(bootcamp, feedback_type, date, rating, comment)
+
+            try:
+                # Enregistrer le retour dans un fichier CSV temporaire
+                with open('temp_feedback.csv', 'w', newline='') as csvfile:
+                    writer = csv.writer(csvfile)
+                    writer.writerow([1, bootcamp, feedback_type, date, rating, comment])
+
+                # Charger le fichier CSV dans HDFS 
+                put = Popen(["hadoop", "fs", "-put", "temp_feedback.csv", "/feedbacks"], stdin=PIPE, bufsize=-1, shell= True)
+                put.communicate()
+                
+
+                # créer un message Flash 
+                flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")  
+                return redirect(url_for('routes.home'))           
+                
+            except Exception as e:
+                print(f"Erreur lors de l'enregistrement du feedback : {str(e)}")
+                flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")   
+                return redirect(url_for('routes.home'))
+
+        else:
+            flash("Veuillez donner votre consentement pour enregistrer votre retour.", "warning")
+            return redirect(url_for('routes.home'))
+    
+    return render_template('index.html')
+
+    # ...
+
+    # Chargement des données dans la table Hive:
+    Dans CLI Hive : 
+    LOAD DATA INPATH 'feedbacks/temp_feedback.csv' INTO TABLE feedbacks;

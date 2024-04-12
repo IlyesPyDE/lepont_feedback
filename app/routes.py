@@ -34,19 +34,11 @@ def home():
             feedback = Feedback(bootcamp, feedback_type, date, rating, comment)
 
             try:
-                # Écrire les données dans HDFS
+                # Écrire les données de feedback directement dans HDFS
                 hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
-                hdfs.append_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n", append=True)
+                hdfs.append_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n")
 
-                # Insérer les données dans Hive
-                conn = hive.Connection(host="localhost", port=10000, database="lplearning", auth='NONE', username='hdfs')
-                cursor = conn.cursor()
-
-                query = f"INSERT INTO feedbacks (bootcamp, feedback_type, `date`, rating, comment) VALUES ('{bootcamp}', '{feedback_type}', '{date}', {rating}, '{comment}')"
-                cursor.execute(query)
-
-                conn.close()
-
+                
                 # créer un message Flash 
                 flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")  
                 return redirect(url_for('routes.home'))           
