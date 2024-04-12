@@ -14,7 +14,6 @@ from .models import Feedback
 import csv
 from pywebhdfs.webhdfs import PyWebHdfsClient
 from pyhive import hive
-import uuid
 
 
 bp = Blueprint('routes', __name__)
@@ -39,18 +38,7 @@ def home():
                 hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
                 hdfs.append_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n")
 
-                conn = hive.Connection(host="localhost", port=10000, database="lplearning")
-                cursor = conn.cursor()
 
-                # Générer un UUID unique pour le nouveau feedback
-                feedback_id = str(uuid.uuid4())
-
-                query = "INSERT INTO feedbacks (id, bootcamp, feedback_type, date, rating, comment) VALUES (%s, %s, %s, %s, %s, %s)"
-                cursor.execute(query, (feedback_id, bootcamp, feedback_type, date, rating, comment))
-
-                conn.close()
-
-                
                 # créer un message Flash 
                 flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")  
                 return redirect(url_for('routes.home'))           

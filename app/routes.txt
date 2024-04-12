@@ -221,8 +221,8 @@ def home():
 
 
 # Créer un table HIVE:
-CREATE EXTERNAL TABLE IF NOT EXISTS feedbacks (
-  id STRING,
+CREATE TABLE feedbacks (
+  id INT,
   bootcamp STRING,
   feedback_type STRING,
   `date` STRING,
@@ -233,6 +233,29 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 LOCATION '/user/hdfs/';
+
+
+INSERT INTO feedbacks (id, bootcamp, feedback_type, `date`, rating, comment)
+SELECT
+    MONOTONICALLY_INCREASING_ID(),
+    bootcamp,
+    feedback_type,
+    `date`,
+    rating,
+    comment
+FROM (
+    SELECT
+        bootcamp,
+        feedback_type,
+        `date`,
+        rating,
+        comment
+    FROM feedbacks
+) t;
+
+
+
+
 
 try: ...
     conn = hive.Connection(host="localhost", port=10000, database="lplearning")
