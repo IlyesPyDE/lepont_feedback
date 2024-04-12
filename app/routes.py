@@ -14,7 +14,6 @@ from .models import Feedback
 import csv
 from pywebhdfs.webhdfs import PyWebHdfsClient
 from pyhive import hive
-import uuid
 
 
 bp = Blueprint('routes', __name__)
