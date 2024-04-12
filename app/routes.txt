@@ -221,18 +221,17 @@ def home():
 
 
 # Créer un table HIVE:
-CREATE EXTERNAL TABLE feedbacks (
-  id INT,
+CREATE EXTERNAL TABLE IF NOT EXISTS feedbacks (
+  id STRING,
   bootcamp STRING,
   feedback_type STRING,
   `date` STRING,
   rating INT,
-  comment STRING,
-  PRIMARY KEY (id)
+  comment STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
-STORED AS ORC
+STORED AS TEXTFILE
 LOCATION '/user/hdfs/';
 
 try: ...
