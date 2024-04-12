@@ -234,6 +234,11 @@ FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 LOCATION '/user/hdfs/';
 
+
+
+# METHODE POUR GENERER ID dans HIVE 
+
+
 try: ...
     conn = hive.Connection(host="localhost", port=10000, database="lplearning")
     cursor = conn.cursor()
