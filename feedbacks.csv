@@ -1,51 +1,52 @@
 bootcamp,feedback_type,date,rating,comment
-artificial_intelligence,axe_amelioration,21/02/2024,5,moyen
-data_engineering,methodes_pedagogiques,10/12/2023,2,plutôt mauvais
-cloud_computing,environnement_apprentissage,12/01/2024,10,excellent
-data_engineering,contenu_cours,25/12/2023,6,pas mal
-cyber_security,environnement_apprentissage,11/01/2024,3,plutôt mauvais
-cloud_computing,methodes_pedagogiques,24/12/2023,7,pas mal
-data_science,support_cours,15/03/2024,2,plutôt mauvais
-data_science,communication,28/01/2024,10,excellent
-data_engineering,formateur,13/03/2024,10,excellent
-web_development,contenu_cours,12/01/2024,7,pas mal
-artificial_intelligence,methodes_pedagogiques,13/01/2024,2,plutôt mauvais
-artificial_intelligence,environnement_apprentissage,13/03/2024,7,pas mal
-cyber_security,communication,03/03/2024,6,pas mal
-cloud_computing,communication,07/01/2024,9,très bon
-cloud_computing,communication,04/01/2024,4,moyen
-cloud_computing,support_cours,26/12/2023,1,à fuir
-cloud_computing,communication,12/12/2023,7,pas mal
-data_science,methodes_pedagogiques,12/01/2024,3,plutôt mauvais
-data_science,support_cours,01/01/2024,2,plutôt mauvais
-data_science,communication,23/02/2024,4,moyen
-cloud_computing,methodes_pedagogiques,10/01/2024,8,très bon
-cyber_security,contenu_cours,24/03/2024,5,moyen
-artificial_intelligence,methodes_pedagogiques,09/02/2024,1,à fuir
-artificial_intelligence,communication,04/03/2024,10,excellent
-cyber_security,support_cours,01/03/2024,6,pas mal
-web_development,communication,06/02/2024,8,très bon
-cyber_security,contenu_cours,06/03/2024,9,très bon
-cyber_security,axe_amelioration,08/01/2024,6,pas mal
-data_science,contenu_cours,06/01/2024,4,moyen
-artificial_intelligence,axe_amelioration,20/02/2024,10,excellent
-web_development,support_cours,11/01/2024,7,pas mal
-artificial_intelligence,support_cours,15/03/2024,3,plutôt mauvais
-data_engineering,formateur,28/03/2024,10,excellent
-data_science,formateur,12/03/2024,10,excellent
-web_development,formateur,14/02/2024,2,plutôt mauvais
-data_science,methodes_pedagogiques,13/01/2024,2,plutôt mauvais
-data_science,methodes_pedagogiques,15/12/2023,5,moyen
-data_science,axe_amelioration,24/02/2024,3,plutôt mauvais
-data_engineering,axe_amelioration,05/03/2024,10,excellent
-web_development,methodes_pedagogiques,02/01/2024,0,à fuir
-artificial_intelligence,support_cours,06/01/2024,5,moyen
-artificial_intelligence,methodes_pedagogiques,08/02/2024,9,très bon
-cyber_security,environnement_apprentissage,21/03/2024,10,excellent
-web_development,axe_amelioration,23/01/2024,5,moyen
-data_science,environnement_apprentissage,20/12/2023,7,pas mal
-artificial_intelligence,communication,20/02/2024,0,à fuir
-data_science,axe_amelioration,05/03/2024,3,plutôt mauvais
-data_engineering,environnement_apprentissage,11/02/2024,0,à fuir
-web_development,environnement_apprentissage,08/01/2024,5,moyen
-data_science,formateur,23/03/2024,5,moyen
+artificial_intelligence,support_cours,2023-08-12,4,Support de cours insuffisant
+web_development,methodes_pedagogiques,2023-11-01,5,Méthodes pédagogiques à revoir
+cloud_computing,formateur,2023-06-23,6,Formateur compétent
+data_science,contenu_cours,2023-10-08,4,Contenu moyen, manque de profondeur
+cyber_security,environnement_apprentissage,2023-07-17,5,Environnement d'apprentissage peu stimulant
+data_engineering,communication,2023-09-29,4,Communication limitée
+artificial_intelligence,axe_amelioration,2023-12-03,5,Nécessite des améliorations significatives
+web_development,contenu_cours,2023-05-14,4,Cours trop théorique, manque de pratique
+cloud_computing,support_cours,2023-08-25,5,Ressources complémentaires limitées
+data_science,methodes_pedagogiques,2023-11-18,4,Méthodes pédagogiques peu adaptées
+cyber_security,formateur,2023-07-02,5,Formateur manquant de dynamisme
+data_engineering,environnement_apprentissage,2023-10-15,4,Environnement d'apprentissage bruyant
+artificial_intelligence,communication,2023-06-06,5,Communication peu claire
+web_development,axe_amelioration,2023-09-22,4,Nécessite une refonte du programme
+cloud_computing,contenu_cours,2023-11-11,5,Cours corrects mais manque de pratique
+data_science,support_cours,2023-05-28,4,Support de cours incomplet
+cyber_security,methodes_pedagogiques,2023-08-19,5,Méthodes pédagogiques ennuyeuses
+data_engineering,formateur,2023-12-07,4,Formateur peu disponible
+artificial_intelligence,environnement_apprentissage,2023-07-10,5,Environnement d'apprentissage inconfortable
+web_development,communication,2023-10-01,4,Communication inefficace
+cloud_computing,axe_amelioration,2023-06-13,5,Nécessite plus de pratique
+data_science,contenu_cours,2023-09-04,4,Cours trop dense
+cyber_security,support_cours,2023-11-25,5,Ressources complémentaires de mauvaise qualité
+data_engineering,methodes_pedagogiques,2023-05-20,4,Méthodes pédagogiques inadaptées
+artificial_intelligence,formateur,2023-08-05,5,Formateur peu pédagogue
+web_development,environnement_apprentissage,2023-12-21,4,Environnement d'apprentissage démotivant
+cloud_computing,communication,2023-06-30,6,Bonne communication
+data_science,axe_amelioration,2023-10-22,4,Nécessite plus de défis stimulants
+cyber_security,contenu_cours,2023-07-26,5,Contenu obsolète
+data_engineering,support_cours,2023-09-11,4,Support de cours confus
+artificial_intelligence,methodes_pedagogiques,2023-11-04,5,Méthodes pédagogiques à revoir
+web_development,formateur,2023-05-07,4,Formateur peu expérimenté
+cloud_computing,environnement_apprentissage,2023-08-30,5,Environnement d'apprentissage peu stimulant
+data_science,communication,2023-12-17,4,Communication limitée
+cyber_security,axe_amelioration,2023-06-23,5,Nécessite des améliorations significatives
+data_engineering,contenu_cours,2023-10-08,4,Contenu moyen, manque de profondeur
+artificial_intelligence,support_cours,2023-07-17,5,Ressources complémentaires limitées
+web_development,methodes_pedagogiques,2023-09-29,4,Méthodes pédagogiques peu adaptées
+cloud_computing,formateur,2023-12-03,7,Formateur très compétent
+data_science,environnement_apprentissage,2023-05-14,4,Environnement d'apprentissage bruyant
+cyber_security,communication,2023-08-25,5,Communication peu claire
+data_engineering,axe_amelioration,2023-11-18,4,Nécessite une refonte du programme
+artificial_intelligence,contenu_cours,2023-07-02,5,Contenu peu innovant
+web_development,support_cours,2023-10-15,4,Support de cours incomplet
+cloud_computing,methodes_pedagogiques,2023-06-06,5,Méthodes pédagogiques correctes mais manque de pratique
+data_science,formateur,2023-09-22,4,Formateur peu disponible
+cyber_security,environnement_apprentissage,2023-11-11,5,Environnement d'apprentissage inconfortable
+data_engineering,communication,2023-05-28,4,Communication inefficace
+artificial_intelligence,axe_amelioration,2023-08-19,5,Nécessite plus de pratique
+web_development,contenu_cours,2023-12-07,4,Cours trop dense
+cloud_computing,support_cours,2023-07-10,5,Ressources complémentaires de mauvaise qualité
