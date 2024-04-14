@@ -221,8 +221,7 @@ def home():
 
 
 # Créer un table HIVE:
-CREATE TABLE feedbacks (
-  id INT,
+CREATE TABLE feedbacks_sans_id (
   bootcamp STRING,
   feedback_type STRING,
   `date` STRING,
@@ -231,8 +230,7 @@ CREATE TABLE feedbacks (
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
-STORED AS TEXTFILE
-LOCATION '/user/hdfs/';
+STORED AS TEXTFILE;
 
 
 INSERT INTO feedbacks (id, bootcamp, feedback_type, `date`, rating, comment)

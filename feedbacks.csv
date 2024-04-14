@@ -1,12 +1,11 @@
-bootcamp,feedback_type,date,rating,comment
 artificial_intelligence,support_cours,2023-08-12,4,Support de cours insuffisant
 web_development,methodes_pedagogiques,2023-11-01,5,Méthodes pédagogiques à revoir
 cloud_computing,formateur,2023-06-23,6,Formateur compétent
-data_science,contenu_cours,2023-10-08,4,Contenu moyen, manque de profondeur
+data_science,contenu_cours,2023-10-08,4,Contenu moyen et manque de profondeur
 cyber_security,environnement_apprentissage,2023-07-17,5,Environnement d'apprentissage peu stimulant
 data_engineering,communication,2023-09-29,4,Communication limitée
 artificial_intelligence,axe_amelioration,2023-12-03,5,Nécessite des améliorations significatives
-web_development,contenu_cours,2023-05-14,4,Cours trop théorique, manque de pratique
+web_development,contenu_cours,2023-05-14,4,Cours trop théorique et manque de pratique
 cloud_computing,support_cours,2023-08-25,5,Ressources complémentaires limitées
 data_science,methodes_pedagogiques,2023-11-18,4,Méthodes pédagogiques peu adaptées
 cyber_security,formateur,2023-07-02,5,Formateur manquant de dynamisme
@@ -32,9 +31,9 @@ data_engineering,support_cours,2023-09-11,4,Support de cours confus
 artificial_intelligence,methodes_pedagogiques,2023-11-04,5,Méthodes pédagogiques à revoir
 web_development,formateur,2023-05-07,4,Formateur peu expérimenté
 cloud_computing,environnement_apprentissage,2023-08-30,5,Environnement d'apprentissage peu stimulant
-data_science,communication,2023-12-17,4,Communication limitée
+data_science,communication,2023-12-17,3,Communication limitée
 cyber_security,axe_amelioration,2023-06-23,5,Nécessite des améliorations significatives
-data_engineering,contenu_cours,2023-10-08,4,Contenu moyen, manque de profondeur
+data_engineering,contenu_cours,2023-10-08,4,Contenu moyen et manque de profondeur
 artificial_intelligence,support_cours,2023-07-17,5,Ressources complémentaires limitées
 web_development,methodes_pedagogiques,2023-09-29,4,Méthodes pédagogiques peu adaptées
 cloud_computing,formateur,2023-12-03,7,Formateur très compétent
