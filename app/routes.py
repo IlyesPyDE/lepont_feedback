@@ -36,9 +36,9 @@ def home():
             try:
                 # Écrire les données de feedback directement dans HDFS
                 hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
-                hdfs.append_file('/user/hdfs/feedbacks.csv', f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n")
+                hdfs.append_file('/user/hdfs/feedbacks.csv', f"\n{bootcamp},{feedback_type},{date},{rating},'{comment}'")
 
-                               
+
                 # créer un message Flash 
                 flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")  
                 return redirect(url_for('routes.home'))           

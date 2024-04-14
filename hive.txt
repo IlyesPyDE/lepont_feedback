@@ -1,5 +1,5 @@
 # Calculer la note moyenne par bootcamp :
-SELECT bootcamp, AVG(note) AS moyenne
+SELECT bootcamp, AVG(rating) AS moyenne
 FROM feedbacks
 GROUP BY bootcamp;
 
@@ -17,15 +17,15 @@ GROUP BY bootcamp, MONTH(date);
 
 
 # Trouver les bootcamps ayant une note moyenne inférieure à 5 :
-SELECT bootcamp, AVG(note) AS moyenne
+SELECT bootcamp, AVG(rating) AS moyenne
 FROM feedbacks
 GROUP BY bootcamp
-HAVING AVG(note) < 5;
+HAVING AVG(rating) < 5;
 
 # Récupérer les feedbacks ayant les 5 notes les plus élevées :
 SELECT *
 FROM feedbacks
-ORDER BY note DESC
+ORDER BY rating DESC
 LIMIT 5;
 
 

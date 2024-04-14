@@ -220,6 +220,28 @@ def home():
     LOAD DATA INPATH 'feedbacks/temp_feedback.csv' INTO TABLE feedbacks;
 
 
+'''
+if consent:
+            feedback = Feedback(bootcamp, feedback_type, date, rating, comment)
+
+            try:
+                # Écrire les données de feedback directement dans HDFS
+                hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+
+                # Lire le contenu existant du fichier
+                existing_data = hdfs.read_file('/user/hdfs/feedbacks.csv').decode('utf-8')
+
+                # Ajouter le nouveau retour:
+                new_data = existing_data + f"{bootcamp},{feedback_type},{date},{rating},'{comment}'\n" 
+
+                # Ecrire les données mises à jour dans le fichier:
+                hdfs.create_file('/user/hdfs/feedbacks.csv', new_data.encode('utf-8'), overwrite=True)
+
+
+                               
+                # créer un message Flash ....
+'''
+
 # Créer un table HIVE:
 CREATE TABLE feedbacks (
   id INT,
@@ -231,6 +253,7 @@ CREATE TABLE feedbacks (
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
 STORED AS TEXTFILE;
 
 
