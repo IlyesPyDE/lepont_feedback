@@ -221,7 +221,8 @@ def home():
 
 
 # Créer un table HIVE:
-CREATE TABLE feedbacks_sans_id (
+CREATE TABLE feedbacks (
+  id INT,
   bootcamp STRING,
   feedback_type STRING,
   `date` STRING,
