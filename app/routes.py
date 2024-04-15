@@ -23,6 +23,11 @@ bp = Blueprint('routes', __name__)
 @bp.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
+        # Lire le dernier ID du fichier CSV:
+        last_id = get_last_id_from_csv()
+        new_id = last_id + 1
+
+        # Collecter les données du formulaire 
         bootcamp = request.form['formation']
         feedback_type = request.form['typeRetour']
         date = request.form['date']
@@ -33,16 +38,18 @@ def home():
         if consent:
             feedback = Feedback(bootcamp, feedback_type, date, rating, comment)
 
-            try:
-                # Écrire les données de feedback directement dans HDFS
+            # Créer la ligne de données avec le nouvel ID
+            data_to_append = f"{new_id},{bootcamp},{feedback_type},{date},{rating},'{comment}'\n"
+
+            # Écrire les données de feedback directement dans le fichier CSV dans HDFS
+            try:                
                 hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
-                hdfs.append_file('/user/hdfs/feedbacks.csv', f"\n{bootcamp},{feedback_type},{date},{rating},'{comment}'")
-
-
+                hdfs.append_file('/user/hdfs/feedbacks.csv', data_to_append.encode('utf-8'))
+                
                 # créer un message Flash 
                 flash("Merci pour votre contribution ! votre retour a été enregistré.", "success")  
-                return redirect(url_for('routes.home'))           
-                
+
+                return redirect(url_for('routes.home'))                           
             except Exception as e:
                 print(f"Erreur lors de l'enregistrement du feedback : {str(e)}")
                 flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")   
@@ -54,6 +61,19 @@ def home():
     
     return render_template('index.html')
 
+def get_last_id_from_csv():
+    """ Cette fonction lit le dernier ID utilisé dans le fichier CSV stocké sur HDFS """
+    try:
+        hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+        with hdfs.read_file('user/hdfs/feedbacks.csv') as file:
+            last_line = file.strip().split('\n')[-1]
+            last_id = int(last_line.split(',')[0])
+            return last_id
+    except FileNotFoundError:
+        return 0
+    except Exception as e:
+        print(f"Erreur lors de la lecture du fichier CSV : {str(e)}")
+        return 0
 
 
 

@@ -298,3 +298,42 @@ try: ...
 
     flash(...)
     return ...
+
+# Dans la prochaine étape, nous verrons comment récupérer et afficher ces données dans notre application web.
+
+
+def get_last_id_from_csv():
+    """ Cette fonction lit le dernier ID utilisé dans le fichier CSV stocké sur HDFS """
+    try:
+        hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+        # Get the file content
+        file_content = hdfs.read_file('/user/hdfs/feedbacks.csv')
+        # Assuming file_content is a bytes object, decode it to a string
+        file_str = file_content.decode('utf-8')
+        # Split the file content into lines and get the last line
+        last_line = file_str.strip().split('\n')[-1]
+        last_id = int(last_line.split(',')[0])
+        return last_id
+    except FileNotFoundError:
+        return 0
+    except Exception as e:
+        print(f"Erreur lors de la lecture du fichier CSV : {str(e)}")
+        return 0
+
+
+#################################################
+
+def get_last_id_from_csv():
+    """Cette fonction lit le dernier ID utilisé dans le fichier CSV stocké sur HDFS """
+    try:
+        hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+        file = hdfs.read_file('user/hdfs/feedbacks.csv')
+        last_line = file.strip().split('\n')[-1]
+        last_id = int(last_line.split(',')[0])
+        file.close()
+        return last_id
+    except FileNotFoundError:
+        return 0
+    except Exception as e:
+        print(f"Erreur lors de la lecture du fichier CSV : {str(e)}")
+        return 0
