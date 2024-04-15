@@ -39,7 +39,7 @@ def home():
             feedback = Feedback(bootcamp, feedback_type, date, rating, comment)
 
             # Créer la ligne de données avec le nouvel ID
-            data_to_append = f"{new_id},{bootcamp},{feedback_type},{date},{rating},'{comment}'\n"
+            data_to_append = f"\n{new_id},{bootcamp},{feedback_type},{date},{rating},{comment}"
 
             # Écrire les données de feedback directement dans le fichier CSV dans HDFS
             try:                
@@ -65,10 +65,16 @@ def get_last_id_from_csv():
     """ Cette fonction lit le dernier ID utilisé dans le fichier CSV stocké sur HDFS """
     try:
         hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
-        with hdfs.read_file('user/hdfs/feedbacks.csv') as file:
-            last_line = file.strip().split('\n')[-1]
-            last_id = int(last_line.split(',')[0])
-            return last_id
+        # Obrenir le contenu du fichier
+        file = hdfs.read_file('user/hdfs/feedbacks.csv')  
+        # Supposons que le file est de type object, decode it to a string
+        file_str = file.decode('utf-8')
+        # Split the file into lines and get last_line and last_id      
+        last_line = file_str.strip().split('\n')[-1]
+        last_id = int(last_line.split(',')[0])
+        
+        return last_id
+        
     except FileNotFoundError:
         return 0
     except Exception as e:
