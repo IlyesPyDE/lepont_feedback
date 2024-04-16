@@ -143,7 +143,39 @@ def update_feedback(id):
         cursor.execute(query)
         
         conn.close()
+
+                ## Mettre à jour le fichier CSV dans HDFS ##
+
+        # Créer une instance du client PyWebHdfs
+        hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
         
+        # Utiliser la méthode read_file pour lire le contenu du fichier CSV depuis HDFS
+        content = hdfs.read_file('/user/hdfs/feedbacks.csv')
+
+        # Décoder le contenu du fichier en String
+        content = content.decode('utf-8')
+
+        # Diviser le contenu en lignes
+        lines = content.split('\n')
+
+        # Parcourir les lignes pour trouver le retour correspondant à l'ID
+        updated_lines = []
+        for line in lines:
+            if line.strip():  # Ignorer les lignes vides
+                feedback_id, *fields = line.split(',')
+                if int(feedback_id) == id:
+                    # Mettre à jour les champs du retour
+                    updated_line = f"{id},{bootcamp},{feedback_type},{date},{rating},{comment}"
+                    updated_lines.append(updated_line)
+                else:
+                    updated_lines.append(line)
+
+        # Joindre les lignes mises à jour en une seule chaîne
+        updated_content = '\n'.join(updated_lines)
+
+        # Écrire le contenu mis à jour dans le fichier CSV sur HDFS
+        hdfs.create_file('/user/hdfs/feedbacks.csv', updated_content.encode('utf-8'), overwrite=True)
+             
         flash(f"Le feedback avec l'ID {id} a été mis à jour.", "success")
 
     except Exception as e:
@@ -166,6 +198,29 @@ def delete_feedback(id):
         cursor.execute(query)
         
         conn.close()
+
+            ## Mettre à jour le fichier CSV dans HDFS ##
+        # Créer une instance du client PyWebHdfs
+        hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+        
+        # Utiliser la méthode read_file pour lire le contenu du fichier CSV depuis HDFS
+        content = hdfs.read_file('/user/hdfs/feedbacks.csv')
+        
+        # Décoder le contenu du fichier en une chaîne de caractères
+        content = content.decode('utf-8')
+        
+        # Diviser le contenu en lignes
+        lines = content.split('\n')
+        
+        # Filtrer les lignes pour exclure le retour correspondant à l'ID
+        updated_lines = [line for line in lines if line.strip() and int(line.split(',')[0]) != id]
+        
+        # Joindre les lignes restantes en une seule chaîne
+        updated_content = '\n'.join(updated_lines)
+        
+        # Écrire le contenu mis à jour dans le fichier CSV sur HDFS
+        hdfs.create_file('/user/hdfs/feedbacks.csv', updated_content.encode('utf-8'), overwrite=True)
+            
 
         flash(f"Le feedback avec l'ID {id} a été supprimé.", "success")
 

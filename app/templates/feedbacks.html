@@ -4,6 +4,64 @@ et affiche les détails de chaque retour.   -->
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Liste des retours</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Liste des retours</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if feedbacks %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Bootcamp</th>
+                    <th>Type de retour</th>
+                    <th>Date</th>
+                    <th>Évaluation</th>
+                    <th>Commentaire</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in feedbacks %}
+                    <tr>
+                        <td>{{ feedback[0] }}</td>
+                        <td>{{ feedback[1] }}</td>
+                        <td>{{ feedback[2] }}</td>
+                        <td>{{ feedback[3] }}</td>
+                        <td>{{ feedback[4] }}</td>
+                        <td>{{ feedback[5] }}</td>
+                        <td>
+                            <a href="{{ url_for('routes.get_feedback', id=feedback[0]) }}">Voir</a>
+                            <a href="{{ url_for('routes.update_feedback', id=feedback[0]) }}">Modifier</a>
+                            <a href="{{ url_for('routes.delete_feedback', id=feedback[0]) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce retour ?');">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun retour trouvé.</p>
+    {% endif %}
+    <script src="{{ url_for('static', filename='script.js') }}"></script>    
+    <a href="{{ url_for('routes.home') }}">Retour à l'accueil</a>
+</body>
+</html>
+
+
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
     <title></title>
 </head>
 <body>
@@ -25,3 +83,4 @@ et affiche les détails de chaque retour.   -->
     </ul>
 </body>
 </html>
+-->
