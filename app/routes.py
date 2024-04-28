@@ -86,7 +86,7 @@ def get_last_id_from_csv():
 # '/feedbacks' : Route pour récupérer tous les retours (opération Read).
 @bp.route('/feedbacks', methods=['GET'])
 def get_feedbacks():
-    # Récupérer tous les retours depuis la base de données (HDFS)
+    # Récupérer tous les retours depuis HDFS
     try:
         conn = hive.Connection(host="localhost", port=10000, database="lplearning")
         cursor = conn.cursor()
@@ -105,7 +105,7 @@ def get_feedbacks():
 # '/feedbacks/<id> (GET)' : Route pour récupérer un retour spécifique (opération Read).
 @bp.route('/feedbacks/<int:id>', methods=['GET'])
 def get_feedback(id):
-    # Récupérer un retour spécifique depuis la base de données (HDFS)
+    # Récupérer un retour spécifique depuis HDFS
     try:
         conn = hive.Connection(host="localhost", port=10000, database="lplearning")
         cursor = conn.cursor()
@@ -126,63 +126,86 @@ def get_feedback(id):
 
 
 # '/feedbacks/<feedback_id> (POST)' : Route pour mettre à jour un retour spécifique (opération Update).
-@bp.route('/feedbacks/<int:id>', methods=['POST'])
+@bp.route('/feedbacks/<int:id>/update', methods=['GET', 'POST'])
 def update_feedback(id):
-    # Mettre à jour un retour spécifique dans la base de données (HDFS)
-    bootcamp = request.form['formation']
-    feedback_type = request.form['typeRetour']
-    date = request.form['date']
-    rating = int(request.form['rating'])
-    comment = request.form['comments']
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        bootcamp = request.form['formation']
+        feedback_type = request.form['typeRetour']
+        date = request.form['date']
+        rating = int(request.form['rating'])
+        comment = request.form['comments']
 
-    try:
-        conn = hive.Connection(host="localhost", port=10000, database="lplearning")
-        cursor = conn.cursor()
+        try:
+            # Connexion à Hive et mettre à jour le retour dans la table Hive
+            conn = hive.Connection(host="localhost", port=10000, database="lplearning")
+            cursor = conn.cursor()
+            
+            query = f"UPDATE feedbacks SET bootcamp = '{bootcamp}', feedback_type = '{feedback_type}', date = '{date}', rating = {rating}, comment = '{comment}' WHERE id = {id}"
+            cursor.execute(query)
+            
+            conn.close()
+
+                    ## Mettre à jour le fichier CSV sur HDFS ##
+
+            # Créer une instance du client PyWebHdfs
+            hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
+            
+            # Utiliser la méthode read_file pour lire le contenu du fichier CSV depuis HDFS
+            content = hdfs.read_file('/user/hdfs/feedbacks.csv')
+
+            # Décoder le contenu du fichier en String
+            content = content.decode('utf-8')
+
+            # Diviser le contenu en lignes
+            lines = content.split('\n')
+
+            # Parcourir les lignes pour trouver le retour correspondant à l'ID
+            updated_lines = []
+            for line in lines:
+                if line.strip():  # Ignorer les lignes vides
+                    feedback_id, *fields = line.split(',')
+                    if int(feedback_id) == id:
+                        # Mettre à jour les champs du retour
+                        updated_line = f"{id},{bootcamp},{feedback_type},{date},{rating},{comment}"
+                        updated_lines.append(updated_line)
+                    else:
+                        updated_lines.append(line)
+
+            # Joindre les lignes mises à jour en une seule chaîne
+            updated_content = '\n'.join(updated_lines)
+
+            # Écrire le contenu mis à jour dans le fichier CSV sur HDFS
+            hdfs.create_file('/user/hdfs/feedbacks.csv', updated_content.encode('utf-8'), overwrite=True)
+                
+            # Rediriger vers la page de détails du retour avec un message de succès
+            flash(f"Le feedback avec l'ID {id} a été mis à jour.", "success")
+            return redirect(url_for('routes.get_feedback', id=id))
+
+        except Exception as e:
+            # Gérer les erreurs et afficher un message d'erreur
+            print(f"Erreur lors de la mise à jour du feedback dans Hive : {str(e)}")
+            flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")
+            return redirect(url_for('routes.update_feedback', id=id))
+    
+    else:
+        try:
+            conn = hive.Connection(host="localhost", port=10000, database="lplearning")
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT * FROM feedbacks WHERE id = {id}")
+            feedback = cursor.fetchone()
+            conn.close()
+            if feedback:
+                return render_template('feedback_update.html', feedback=feedback)
+            else:
+                flash(f"Le feedback avec l'ID {id} n'a pas été trouvé.", "warning")
+                return redirect(url_for('routes.get_feedbacks'))
+        except Exception as e:
+            print(f"Erreur lors de la récupération du feedback depuis Hive : {str(e)}")
+            flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")
+            return redirect(url_for('routes.get_feedbacks'))
+
         
-        query = f"UPDATE feedbacks SET bootcamp = '{bootcamp}', feedback_type = '{feedback_type}', date = '{date}', rating = {rating}, comment = '{comment}' WHERE id = {id}"
-        cursor.execute(query)
-        
-        conn.close()
-
-                ## Mettre à jour le fichier CSV dans HDFS ##
-
-        # Créer une instance du client PyWebHdfs
-        hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
-        
-        # Utiliser la méthode read_file pour lire le contenu du fichier CSV depuis HDFS
-        content = hdfs.read_file('/user/hdfs/feedbacks.csv')
-
-        # Décoder le contenu du fichier en String
-        content = content.decode('utf-8')
-
-        # Diviser le contenu en lignes
-        lines = content.split('\n')
-
-        # Parcourir les lignes pour trouver le retour correspondant à l'ID
-        updated_lines = []
-        for line in lines:
-            if line.strip():  # Ignorer les lignes vides
-                feedback_id, *fields = line.split(',')
-                if int(feedback_id) == id:
-                    # Mettre à jour les champs du retour
-                    updated_line = f"{id},{bootcamp},{feedback_type},{date},{rating},{comment}"
-                    updated_lines.append(updated_line)
-                else:
-                    updated_lines.append(line)
-
-        # Joindre les lignes mises à jour en une seule chaîne
-        updated_content = '\n'.join(updated_lines)
-
-        # Écrire le contenu mis à jour dans le fichier CSV sur HDFS
-        hdfs.create_file('/user/hdfs/feedbacks.csv', updated_content.encode('utf-8'), overwrite=True)
-             
-        flash(f"Le feedback avec l'ID {id} a été mis à jour.", "success")
-
-    except Exception as e:
-        print(f"Erreur lors de la mise à jour du feedback dans Hive : {str(e)}")
-        flash("Une erreur est survenue. Veuillez réessayer plus tard.", "danger")
-
-    return redirect(url_for('routes.get_feedback', id=id))
 
     
 
