@@ -1,16 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Détails du retour</title>
-    </head>
-    <body>
-        <h2>Détails du retour</h2>
-        <p>Bootcamp : {{ feedback[1] }}</p>
-        <p>Type de retour : {{ feedback[2] }}</p>
-        <p>Date : {{ feedback[3] }}</p>
-        <p>Évaluation : {{ feedback[4] }}</p>
-        <p>Commentaire : {{ feedback[5] }}</p>
-    </body>
-</html>
+<head>
+    <title>Détails du retour</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Détails du retour</h1>
 
+    {% if feedback %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <td>{{ feedback[0] }}</td>
+            </tr>
+            <tr>
+                <th>Bootcamp</th>
+                <td>{{ feedback[1] }}</td>
+            </tr>
+            <tr>
+                <th>Type de retour</th>
+                <td>{{ feedback[2] }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ feedback[3] }}</td>
+            </tr>
+            <tr>
+                <th>Évaluation</th>
+                <td>{{ feedback[4] }}</td>
+            </tr>
+            <tr>
+                <th>Commentaire</th>
+                <td>{{ feedback[5] }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p>Aucun retour trouvé avec cet ID.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('routes.update_feedback', id=feedback[0]) }}">Modifier ce retour</a>    
+    <a href="{{ url_for('routes.get_feedbacks') }}">Retour à la liste des retours</a>
+</body>
+</html>
 

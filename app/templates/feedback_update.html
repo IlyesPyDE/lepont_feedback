@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifier un retour</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Modifier un retour</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if feedback %}
+        <form method="POST" action="{{ url_for('routes.update_feedback', id=feedback[0]) }}">
+            <label for="bootcamp">Bootcamp :</label>
+            <input type="text" id="bootcamp" name="bootcamp" value="{{ feedback[1] }}" required><br>
+
+            <label for="feedback_type">Type de retour :</label>
+            <input type="text" id="feedback_type" name="feedback_type" value="{{ feedback[2] }}" required><br>
+
+            <label for="date">Date :</label>
+            <input type="text" id="date" name="date" value="{{ feedback[3] }}" required><br>
+
+            <label for="rating">Évaluation :</label>
+            <input type="text" id="rating" name="rating" value="{{ feedback[4] }}" required><br>
+
+            <label for="comment">Commentaire :</label>
+            <textarea id="comment" name="comment" required>{{ feedback[5] }}</textarea><br>
+
+            <input type="submit" value="Enregistrer les modifications">
+        </form>
+    {% else %}
+        <p>Aucun retour trouvé avec cet ID.</p>
+    {% endif %}
+
+    <a href="{{ url_for('routes.get_feedbacks') }}">Retour à la liste des retours</a>
+</body>
+</html>

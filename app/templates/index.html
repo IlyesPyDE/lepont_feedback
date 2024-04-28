@@ -61,6 +61,8 @@
             </label>
         </div>
         <button type="submit">Soumettre</button>
+        <input type="submit" value="Soumettre">
+        <a href="{{ url_for('routes.get_feedbacks') }}">Voir tous les retours</a>
     </form>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
