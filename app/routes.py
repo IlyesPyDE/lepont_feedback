@@ -226,15 +226,7 @@ def update_feedback(id):
 def delete_feedback(id):
     # Supprimer un retour spécifique de la base de données (HDFS)
     try:
-        conn = hive.Connection(host="localhost", port=10000, database="lplearning")
-        cursor = conn.cursor()
-        
-        query = f"DELETE FROM feedbacks WHERE id = {id}"
-        cursor.execute(query)
-        
-        conn.close()
-
-            ## Mettre à jour le fichier CSV dans HDFS ##
+         ## Mettre à jour le fichier CSV dans HDFS ##
         # Créer une instance du client PyWebHdfs
         hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
         
