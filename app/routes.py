@@ -136,17 +136,9 @@ def update_feedback(id):
         rating = int(request.form['rating'])
         comment = request.form['comments']
 
-        try:
-            # Connexion à Hive et mettre à jour le retour dans la table Hive
-            conn = hive.Connection(host="localhost", port=10000, database="lplearning")
-            cursor = conn.cursor()
-            
-            query = f"UPDATE feedbacks SET bootcamp = '{bootcamp}', feedback_type = '{feedback_type}', date = '{date}', rating = {rating}, comment = '{comment}' WHERE id = {id}"
-            cursor.execute(query)
-            
-            conn.close()
-
-                    ## Mettre à jour le fichier CSV sur HDFS ##
+        try:                 
+      
+                   ## Mettre à jour le fichier CSV sur HDFS ##
 
             # Créer une instance du client PyWebHdfs
             hdfs = PyWebHdfsClient(host='localhost', port='9870', user_name='hdfs')
