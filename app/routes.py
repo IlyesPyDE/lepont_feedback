@@ -86,14 +86,30 @@ def get_last_id_from_csv():
 # '/feedbacks' : Route pour récupérer tous les retours (opération Read).
 @bp.route('/feedbacks', methods=['GET'])
 def get_feedbacks():
-    # Récupérer tous les retours depuis HDFS
+    search = request.args.get('search', '').strip()
+    filter_type = request.args.get('filter', '').strip()
+    
     try:
         conn = hive.Connection(host="localhost", port=10000, database="lplearning")
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM feedbacks")
+
+        query = "SELECT * FROM feedbacks"
+        conditions = []
+
+        if search:
+            conditions.append(f"(bootcamp LIKE '%{search}%' OR comment LIKE '%{search}%')")
+
+        if filter_type:
+            conditions.append(f"feedback_type = '{filter_type}'")
+
+        if conditions:
+            query += " WHERE " + " AND ".join(conditions)
+
+        cursor.execute(query)
         feedbacks = cursor.fetchall()
         conn.close()
-        return render_template('feedbacks.html', feedbacks=feedbacks)
+
+        return render_template('feedbacks.html', feedbacks=feedbacks, search=search, filter=filter_type)
     
     except Exception as e:
         print(f"Erreur lors de la récupération des feedbacks depuis Hive : {str(e)}")

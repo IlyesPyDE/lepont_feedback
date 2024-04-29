@@ -18,6 +18,17 @@ et affiche les détails de chaque retour.   -->
         {% endif %}
     {% endwith %}
 
+    <form method="GET" action="{{ url_for('routes.get_feedbacks') }}">
+        <input type="text" name="search" placeholder="Rechercher..." value="{{ search }}">
+        <select name="filter">
+            <option value="" {% if not filter %}selected{% endif %}>Tous les types</option>
+            <option value="Positif" {% if filter == 'Positif' %}selected{% endif %}>Positif</option>
+            <option value="Negatif" {% if filter == 'Negatif' %}selected{% endif %}>Négatif</option>
+            <option value="Neutre" {% if filter == 'Neutre' %}selected{% endif %}>Neutre</option>
+        </select>
+        <button type="submit">Rechercher</button>
+    </form>
+
     {% if feedbacks %}
         <table>
             <thead>
@@ -57,30 +68,3 @@ et affiche les détails de chaque retour.   -->
 </body>
 </html>
 
-
-<!-- 
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <h1>Retours des apprenants</h1>
-    <h2>Liste des retours</h2>
-    <ul>
-        {% if feedback %}
-            {% for feedback in feedbacks %}
-            <hr>
-                <p>Bootcamp : {{ feedback[1] }}</p>
-                <p>Type de retour : {{ feedback[2] }}</p>
-                <p>Date : {{ feedback[3] }}</p>
-                <p>Évaluation : {{ feedback[4] }}</p>
-                <p>Commentaire : {{ feedback[5] }}</p>
-            {% endfor %}
-        {% else %}
-            <p>Aucun retour trouvé.</p>
-        {% endif %}
-    </ul>
-</body>
-</html>
--->
