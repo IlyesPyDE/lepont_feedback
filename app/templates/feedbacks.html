@@ -22,9 +22,9 @@ et affiche les détails de chaque retour.   -->
         <input type="text" name="search" placeholder="Rechercher..." value="{{ search }}">
         <select name="filter">
             <option value="" {% if not filter %}selected{% endif %}>Tous les avis</option>
-            <option value="positive" {% if filter == 'positive' %}selected{% endif %}>Positif (> 5)</option>
-            <option value="negative" {% if filter == 'negative' %}selected{% endif %}>Négatif (< 5)</option>
-            <option value="neutral" {% if filter == 'neutral' %}selected{% endif %}>Neutre (= 5)</option>
+            <option value="positive" {% if filter == 'positive' %}selected{% endif %}>Positif </option>
+            <option value="negative" {% if filter == 'negative' %}selected{% endif %}>Négatif </option>
+            <option value="neutral" {% if filter == 'neutral' %}selected{% endif %}>Neutre </option>
         </select>
         <button type="submit">Rechercher</button>
     </form>
