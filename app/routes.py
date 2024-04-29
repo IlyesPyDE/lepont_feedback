@@ -99,8 +99,12 @@ def get_feedbacks():
         if search:
             conditions.append(f"(bootcamp LIKE '%{search}%' OR comment LIKE '%{search}%')")
 
-        if filter_type:
-            conditions.append(f"feedback_type = '{filter_type}'")
+        if filter_type == 'positive':
+            conditions.append("rating > 5")
+        elif filter_type == 'negative':
+            conditions.append("rating < 5")
+        elif filter_type == 'neutral':
+            conditions.append("rating = 5")
 
         if conditions:
             query += " WHERE " + " AND ".join(conditions)

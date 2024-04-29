@@ -21,10 +21,10 @@ et affiche les détails de chaque retour.   -->
     <form method="GET" action="{{ url_for('routes.get_feedbacks') }}">
         <input type="text" name="search" placeholder="Rechercher..." value="{{ search }}">
         <select name="filter">
-            <option value="" {% if not filter %}selected{% endif %}>Tous les types</option>
-            <option value="Positif" {% if filter == 'Positif' %}selected{% endif %}>Positif</option>
-            <option value="Negatif" {% if filter == 'Negatif' %}selected{% endif %}>Négatif</option>
-            <option value="Neutre" {% if filter == 'Neutre' %}selected{% endif %}>Neutre</option>
+            <option value="" {% if not filter %}selected{% endif %}>Tous les avis</option>
+            <option value="positive" {% if filter == 'positive' %}selected{% endif %}>Positif (> 5)</option>
+            <option value="negative" {% if filter == 'negative' %}selected{% endif %}>Négatif (< 5)</option>
+            <option value="neutral" {% if filter == 'neutral' %}selected{% endif %}>Neutre (= 5)</option>
         </select>
         <button type="submit">Rechercher</button>
     </form>
