@@ -38,7 +38,8 @@
         <p>Aucun retour trouvé avec cet ID.</p>
     {% endif %}
     
-    <a href="{{ url_for('routes.update_feedback', id=feedback[0]) }}">Modifier ce retour</a>    
+    <a href="{{ url_for('routes.update_feedback', id=feedback[0]) }}">Modifier ce retour</a>
+    <a href="{{ url_for('routes.delete_feedback', id=feedback[0]) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce retour ?');">Supprimer</a>    
     <a href="{{ url_for('routes.get_feedbacks') }}">Retour à la liste des retours</a>
 </body>
 </html>
