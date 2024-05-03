@@ -1,4 +1,5 @@
 # tests/test_routes.py
+# NOTE: utiliser la commande : "python -m pytest" pour lancer le test au lieu de "pytest tests" 
 
 import pytest
 from app import create_app
@@ -58,13 +59,13 @@ def test_get_feedbacks(client):
 
 # Définit un test pour la récupération d'un feedback spécifique.
 def test_get_feedback(client):
-    # Supposons que le feedback avec l'ID 1 existe.
-    # Envoie une requête GET à la route "/feedbacks/1".
-    response = client.get("/feedbacks/1")
+    # Supposons que le feedback avec l'ID 55 existe.
+    # Envoie une requête GET à la route "/feedbacks/55".
+    response = client.get("/feedbacks/55")
     # Vérifie que le code de statut de la réponse est 200 (OK).
     assert response.status_code == 200
     # Vérifie que la réponse contient le texte "Détails du retour".
-    assert b"Détails du retour" in response.data
+    assert "Détails du retour" in response.data.decode('utf-8')
 
 
 # Définit un test pour la mise à jour d'un feedback spécifique.
@@ -78,18 +79,18 @@ def test_update_feedback(client):
         "comments": "Excellent cours, très instructif."
     }
     # Supposons que le feedback avec l'ID 1 existe.
-    # Envoie une requête POST à la route "/feedbacks/1/update" avec les données de mise à jour.
-    response = client.post("/feedbacks/1/update", data=data)
+    # Envoie une requête POST à la route "/feedbacks/55/update" avec les données de mise à jour.
+    response = client.post("/feedbacks/55/update", data=data)
     # Vérifie que le code de statut de la réponse est 302 (redirection).
     assert response.status_code == 302
-    # Vérifie que la redirection se fait vers la page de détails du feedback avec l'ID 1.
-    assert response.location.endswith("/feedbacks/1")
+    # Vérifie que la redirection se fait vers la page de détails du feedback avec l'ID 55.
+    assert response.location.endswith("/feedbacks/55")
 
 
 # Définit un test pour la suppression d'un feedback spécifique.
 def test_delete_feedback(client):
-    # Supposons que le feedback avec l'ID 1 existe.
-    # Envoie une requête DELETE à la route "/feedbacks/1".
-    response = client.delete("/feedbacks/1")
+    # Supposons que le feedback avec l'ID 55 existe.
+    # Envoie une requête DELETE à la route "/feedbacks/55".
+    response = client.delete("/feedbacks/55")
     # Vérifie que le code de statut de la réponse est 204 (pas de contenu).
     assert response.status_code == 204
