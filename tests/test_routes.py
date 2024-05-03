@@ -78,7 +78,6 @@ def test_update_feedback(client):
         "rating": 7,
         "comments": "Excellent cours, très instructif."
     }
-    # Supposons que le feedback avec l'ID 1 existe.
     # Envoie une requête POST à la route "/feedbacks/55/update" avec les données de mise à jour.
     response = client.post("/feedbacks/55/update", data=data)
     # Vérifie que le code de statut de la réponse est 302 (redirection).
@@ -89,7 +88,6 @@ def test_update_feedback(client):
 
 # Définit un test pour la suppression d'un feedback spécifique.
 def test_delete_feedback(client):
-    # Supposons que le feedback avec l'ID 55 existe.
     # Envoie une requête DELETE à la route "/feedbacks/55".
     response = client.delete("/feedbacks/55")
     # Vérifie que le code de statut de la réponse est 204 (pas de contenu).
